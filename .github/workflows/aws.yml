@@ -67,18 +67,24 @@ jobs:
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
       env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        IMAGE_TAG: ${{ github.sha }}
+       # ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+       # IMAGE_TAG: ${{ github.sha }}
+         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+         ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
+         IMAGE_TAG: ${{ steps.vars.outputs.tag }}
       run: |
         # Build a docker container and
         # push it to ECR so that it can
         # be deployed to ECS.
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+        #  docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        # docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        #  echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
         # docker build -t  public.ecr.aws/d6j9j2h3/python_app:latest .
         # docker push  public.ecr.aws/d6j9j2h3/python_app:latest
         # echo "image= public.ecr.aws/d6j9j2h3/python_app:latest" >> $GITHUB_OUTPUT
+         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def
