@@ -83,12 +83,8 @@ jobs:
         # docker push  public.ecr.aws/d6j9j2h3/python_app:latest
         # echo "image= public.ecr.aws/d6j9j2h3/python_app:latest" >> $GITHUB_OUTPUT
          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-         docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG public.ecr.aws/d6j9j2h3/python_app:latest
-         docker push public.ecr.aws/d6j9j2h3/python_app:latest
-         echo "::set-output name=image::public.ecr.aws/d6j9j2h3/python_app:latest"
-
-        # docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        # echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def
