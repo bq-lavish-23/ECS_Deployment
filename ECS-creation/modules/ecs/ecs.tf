@@ -88,8 +88,8 @@ resource "aws_security_group" "service_nginx_security_group" {
     from_port       = 0
     to_port         = 0
     protocol        = "-1"
-    security_groups = [var.security_group_service_nginx_loadbalancer_sg]
-    #cidr_blocks = ["0.0.0.0/0"]
+   # security_groups = [var.security_group_service_nginx_loadbalancer_sg]
+    cidr_blocks = ["0.0.0.0/0"]
 
   }
 
