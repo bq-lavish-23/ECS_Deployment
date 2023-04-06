@@ -1,21 +1,4 @@
-# DevOps Assessment Homework
 
-This is TravelPerk's assessment homework for DevOps candidates. Please read
-this document thoroughly and don't hesitate to contact us to devops@travelperk.com if you have any
-doubt.
-
-## Prepare the assessment
-
-To do this assessment follow these preliminary steps:
-
-  * Copy this repo localy and manually create a repo yourself in your GitHub
-    account. DON'T FORK IT! Otherwise it will appear in the fork list and other
-    candidates could copy it.
-  * Set `[x] Require status checks to pass before merging` on master branch in
-    `Project Settings -> Branches`
-  * Review the code here and ask any questions: better clearing doubts and
-    misunderstandings early on
-  
 
 ## Run the app
 
@@ -68,8 +51,7 @@ the service you have deployed.
     priorities, and to open a conversation on how you'd go further in case we wanted
     to iterate over the exercise.
 
- **Many thanks for your time and good luck!**
-
+ 
 [1]: https://github.com/travelperk/devops-assessment-terraform
 ...
 .
