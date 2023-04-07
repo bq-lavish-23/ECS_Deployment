@@ -16,7 +16,7 @@ resource "aws_ecs_task_definition" "task_nginx" {
       memory = var.task_nginx_container_nginx_memory
       portMappings = [
         {
-          containerPort = var.task_nginx_container_nginx_conatinerport
+            containerPort = var.task_nginx_container_nginx_conatinerport
          // hostPort      =    var.task_nginx_container_nginx_conatinerport   #var.task_nginx_container_nginx_hostport
         }
       ]
