@@ -1,7 +1,7 @@
 
 
 ## Run the app
-
+.
 In a virtualenv, run:
 
     python setup.py install FLASK_APP=hello flask run
