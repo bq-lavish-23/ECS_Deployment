@@ -2,13 +2,23 @@ resource "aws_ecs_cluster" "cluster_nginx" {
   name = var.cluster_nginx_name
 }
 
+resource "aws_ecr_repository" "python_app" {
+  name                 = "python_app"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+}
+
+
 resource "aws_ecs_task_definition" "task_nginx" {
   family                   = var.task_nginx_name
   requires_compatibilities = [var.task_nginx_requires_compatibilities_FARGATE]
   network_mode             = var.task_nginx_network_mode
   cpu                      = var.task_nginx_cpu
   memory                   = var.task-nginx-memory
-  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
+ // execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
   container_definitions = jsonencode([
     {
       name   = var.task_nginx_container_nginx_name
@@ -24,28 +34,28 @@ resource "aws_ecs_task_definition" "task_nginx" {
   ])
 }
 
-data "aws_iam_policy_document" "ecs_task_execution_role" {
-  version = "2012-10-17"
-  statement {
-    sid     = ""
-    effect  = "Allow"
-    actions = ["sts:AssumeRole"]
+# data "aws_iam_policy_document" "ecs_task_execution_role" {
+#   version = "2012-10-17"
+#   statement {
+#     sid     = ""
+#     effect  = "Allow"
+#     actions = ["sts:AssumeRole"]
 
-    principals {
-      type        = "Service"
-      identifiers = ["ecs-tasks.amazonaws.com"]
-    }
-  }
-}
+#     principals {
+#       type        = "Service"
+#       identifiers = ["ecs-tasks.amazonaws.com"]
+#     }
+#   }
+# }
 
-resource "aws_iam_role" "ecs_task_execution_role" {
-  name               = "ecs_task_execution_role"
-  assume_role_policy = data.aws_iam_policy_document.ecs_task_execution_role.json
-}
-resource "aws_iam_role_policy_attachment" "ecs_task_execution_role" {
-  role       = aws_iam_role.ecs_task_execution_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
-}
+# resource "aws_iam_role" "ecs_task_execution_role" {
+#   name               = "ecs_task_execution_role"
+#   assume_role_policy = data.aws_iam_policy_document.ecs_task_execution_role.json
+# }
+# resource "aws_iam_role_policy_attachment" "ecs_task_execution_role" {
+#   role       = aws_iam_role.ecs_task_execution_role.name
+#   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+# }
 
 resource "aws_ecs_service" "service_nginx" {
   name            = var.service_nginx_name
@@ -69,7 +79,7 @@ resource "aws_ecs_service" "service_nginx" {
     container_name   = var.task_nginx_container_nginx_name
     container_port   = var.task_nginx_container_nginx_conatinerport
   }
-  depends_on = [ aws_iam_role_policy_attachment.ecs_task_execution_role]
+//  depends_on = [ aws_iam_role_policy_attachment.ecs_task_execution_role]
 }
 
 resource "aws_security_group" "service_nginx_security_group" {
